@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.developer.takenote.feature_note.domain.model.Note
-import com.developer.takenote.feature_note.domain.use_case.NoteUseCase
+import com.developer.takenote.feature_note.domain.use_case.NoteUseCases
 import com.developer.takenote.feature_note.domain.util.NoteOrder
 import com.developer.takenote.feature_note.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val notesUseCase: NoteUseCase
+    private val notesUseCases: NoteUseCases
 ) : ViewModel() {
 
     private val _state = mutableStateOf(NotesState())
@@ -44,13 +44,13 @@ class NotesViewModel @Inject constructor(
             }
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
-                    notesUseCase.delete(event.note)
+                    notesUseCases.delete(event.note)
                     recentlyDeletedNote = event.note
                 }
             }
             is NotesEvent.RestoreNote -> {
                 viewModelScope.launch {
-                    notesUseCase.insertNote(recentlyDeletedNote ?: return@launch)
+                    notesUseCases.insertNote(recentlyDeletedNote ?: return@launch)
                     recentlyDeletedNote = null
                 }
             }
@@ -65,7 +65,7 @@ class NotesViewModel @Inject constructor(
     private fun getNotes(noteOrder: NoteOrder) {
         getNotesJob?.cancel()
 
-        getNotesJob = notesUseCase.getNotes(noteOrder = noteOrder)
+        getNotesJob = notesUseCases.getNotes(noteOrder = noteOrder)
             .onEach { notes ->
                 _state.value = state.value.copy(
                     notes = notes,

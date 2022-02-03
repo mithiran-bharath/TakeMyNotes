@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.developer.takenote.feature_note.domain.model.InValidNoteException
 import com.developer.takenote.feature_note.domain.model.Note
-import com.developer.takenote.feature_note.domain.use_case.NoteUseCase
+import com.developer.takenote.feature_note.domain.use_case.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
-    private val noteUseCase: NoteUseCase,
+    private val noteUseCases: NoteUseCases,
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
 
@@ -44,7 +44,7 @@ class AddEditNoteViewModel @Inject constructor(
         savedStateHandle.get<Int>("noteId")?.let{ noteId ->
             if(noteId != -1) {
                 viewModelScope.launch {
-                    noteUseCase.getNoteById(noteId)?.also { note ->
+                    noteUseCases.getNoteById(noteId)?.also { note ->
                         currentNoteId = note.id
                         _noteTitle.value = noteTitle.value.copy(
                             text = note.title,
@@ -92,7 +92,7 @@ class AddEditNoteViewModel @Inject constructor(
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
-                        noteUseCase.insertNote(
+                        noteUseCases.insertNote(
                             Note(
                                 title = noteTitle.value.text,
                                 content = noteContent.value.text,
