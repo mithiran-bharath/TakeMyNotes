@@ -9,3 +9,4 @@ It is simple application developed with **Jetpack Compose, Flow, Room Database,H
 - Flow
 - Room Database
 - Clean Code Architecture
+- Data Store
