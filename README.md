@@ -5,7 +5,7 @@ It is simple application developed with **Jetpack Compose, Flow, Room Database,H
 
 ## Topic Covered
 - JetPack Compose
-- Hilt -(Dependency Ingestion)
+- Hilt -(Dependency Injection)
 - Flow
 - Room Database
 - Clean Code Architecture
