@@ -1,12 +1,13 @@
 package com.developer.takenote.featurecreateuser.domain.util
 
 import android.util.Patterns
+import androidx.core.util.PatternsCompat
 import java.util.regex.Pattern
 
 object RegistrationUtils {
 
     fun isValidUserEmail(email:String):Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     fun isValidUserName(userName: String): Boolean {
